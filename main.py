@@ -33,11 +33,17 @@ def time():
 def result_str():
     currentDateTimeAndSoOn = time()
     if currentDateTimeAndSoOn[1] == '22-7':
-        with open("night.json",'r', encoding='utf-8') as file:
+        with open("C:/PriceTgBot/night.json",'r', encoding='utf-8') as file:
+
             now = pendulum.now("Europe/Moscow")
             choose = "OtherDays"
-            if now.day_of_week == 5 or 6:
+            if now.day_of_week == 5 and not now.hour in [0, 1, 2, 3, 4, 5, 6, 7]:
                 choose = "FridayAndSaturday"
+            elif now.day_of_week == 6:
+                choose = "FridayAndSaturday"
+            elif now.day_of_week == 0 and now.hour in [0, 1, 2, 3, 4, 5, 6, 7]:
+                choose = "FridayAndSaturday"
+                
             data = file.read()
             data = json.loads(data)
             
@@ -59,7 +65,7 @@ def result_str():
             10 Часов Ночь - {data[choose]["Аренда TV 65"]["10 Часов Ночь"]}
 
             '''
-    with open("sheulder.json", 'r', encoding='UTF-8') as file:
+    with open("C:/PriceTgBot/sheulder.json", 'r', encoding='UTF-8') as file:
         data = file.read()
         data = json.loads(data)
         return f'''
