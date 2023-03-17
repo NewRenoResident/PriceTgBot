@@ -1,3 +1,4 @@
+
 from typing import final
 import logging
 from aiogram import Bot, Dispatcher, executor, types
@@ -7,9 +8,11 @@ import json
 def time():
     now = pendulum.now("Europe/Moscow")
     Weekends_or_weekdays = 'Weekdays'
+    print(now.day_of_week)
+    print()
     if now.day_of_week > 5 and now.day_of_week != 0:
         Weekends_or_weekdays = 'Weekends'
-
+    
     timelist = [[8, 9, 10, 11, 12], [13], [14, 15], [16], 
     [17, 18, 19], [20], [21], [22, 23, 0, 1, 2, 3, 4, 5, 6, 7]]
     pathlists = [
@@ -30,7 +33,32 @@ def time():
 def result_str():
     currentDateTimeAndSoOn = time()
     if currentDateTimeAndSoOn[1] == '22-7':
-        return 'Ночью я пока не работаю'
+        with open("night.json",'r', encoding='utf-8') as file:
+            now = pendulum.now("Europe/Moscow")
+            choose = "OtherDays"
+            if now.day_of_week == 5 or 6:
+                choose = "FridayAndSaturday"
+            data = file.read()
+            data = json.loads(data)
+            
+            return f'''
+            Общий зал:
+            Час - {data[choose]["Общий зал"]["Час"]}
+            10 Часов Ночь - {data[choose]["Общий зал"]["10 Часов Ночь"]}
+
+            Буткемп - VIP:
+            Час - {data[choose]["Буткемп - VIP"]["Час"]}
+            10 Часов Ночь - {data[choose]["Буткемп - VIP"]["10 Часов Ночь"]}
+            
+            Буткемп Pro:
+            Час - {data[choose]["Буткемп Pro"]["Час"]}
+            10 Часов Ночь - {data[choose]["Буткемп Pro"]["10 Часов Ночь"]}
+
+            Аренда TV 65:
+            Час - {data[choose]["Аренда TV 65"]["Час"]}
+            10 Часов Ночь - {data[choose]["Аренда TV 65"]["10 Часов Ночь"]}
+
+            '''
     with open("sheulder.json", 'r', encoding='UTF-8') as file:
         data = file.read()
         data = json.loads(data)
@@ -79,5 +107,5 @@ async def cmd_test1(message: types.Message):
 
 
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)#крутыш!!1!!!11
+    executor.start_polling(dp, skip_updates=True) 
 
