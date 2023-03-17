@@ -65,7 +65,7 @@ def result_str():
             10 Часов Ночь - {data[choose]["Аренда TV 65"]["10 Часов Ночь"]}
 
             '''
-    with open("C:/PriceTgBot/sheulder.json", 'r', encoding='UTF-8') as file:
+    with open("C:/PriceTgBot/schedule.json", 'r', encoding='UTF-8') as file:
         data = file.read()
         data = json.loads(data)
         return f'''
